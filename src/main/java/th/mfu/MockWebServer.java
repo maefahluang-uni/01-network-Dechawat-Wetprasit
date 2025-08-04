@@ -6,7 +6,6 @@ import java.net.*;
 public class MockWebServer implements Runnable {
 
     private int port;
-    private boolean running = true;
 
     public MockWebServer(int port) {
         this.port = port;
@@ -18,7 +17,7 @@ public class MockWebServer implements Runnable {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             System.out.println("Mock Web Server running on port " + port + "...");
 
-            while (running) {
+            while (true) {
                 try {
                     Socket clientSocket = serverSocket.accept();
 
@@ -38,9 +37,7 @@ public class MockWebServer implements Runnable {
 
                     clientSocket.close();
                 } catch (IOException e) {
-                    if (running) {
-                        System.err.println("[" + port + "] Error handling client: " + e.getMessage());
-                    }
+                    System.err.println("[" + port + "] Error handling client: " + e.getMessage());
                 }
             }
 
